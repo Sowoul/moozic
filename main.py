@@ -41,5 +41,3 @@ def moz():
 
     return render_template('index.html', videos=video_info)
 
-if __name__ == '__main__':
-    app.run(port=8080)
