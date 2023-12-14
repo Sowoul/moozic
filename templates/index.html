@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Symphorny</title>
     <link href="https://fonts.googleapis.com/css?family=Gotham&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/howler@2.2.3/dist/howler.min.js"></script>
+
+
+
 
     <style>
         body {
@@ -143,16 +147,17 @@
             border-top: 2px solid rgba(4, 255, 0, 0.1);
             display: flex;
             align-items: center;
-            padding: 8px;
+            padding: 12px;
             box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.1);
             display: none;
             z-index: 101;
         }
 
         .audio-controls img {
-            height: 40px;
+            height: 45px;
             margin-right: 10px;
             display: block;
+            padding-left: 1em;
         }
 
         .audio-title, .video-title {
@@ -177,6 +182,7 @@
             flex-grow: 1;
             z-index: 100;
         }
+
         @keyframes move {
             100% {
                 transform: translate3d(0, 0, 1px) rotate(360deg);
@@ -259,132 +265,6 @@
     transform-origin: 6vw -1vh;
     box-shadow: 100vmin 0 12.531633959555556vmin currentColor;
 }
-.background span:nth-child(6) {
-    color: #00ff59;
-    top: 35%;
-    left: 90%;
-    animation-duration: 44s;
-    animation-delay: -17s;
-    transform-origin: -14vw -13vh;
-    box-shadow: 100vmin 0 12.955128370361377vmin currentColor;
-}
-.background span:nth-child(7) {
-    color: #00ff9d;
-    top: 6%;
-    left: 62%;
-    animation-duration: 17s;
-    animation-delay: -23s;
-    transform-origin: 22vw -9vh;
-    box-shadow: -100vmin 0 12.563303315641619vmin currentColor;
-}
-.background span:nth-child(8) {
-    color: #00ff59;
-    top: 16%;
-    left: 98%;
-    animation-duration: 10s;
-    animation-delay: -31s;
-    transform-origin: 15vw 14vh;
-    box-shadow: 100vmin 0 13.388471475390457vmin currentColor;
-}
-.background span:nth-child(9) {
-    color: #07cf43;
-    top: 49%;
-    left: 56%;
-    animation-duration: 10s;
-    animation-delay: -47s;
-    transform-origin: -20vw 14vh;
-    box-shadow: 100vmin 0 12.581227875799286vmin currentColor;
-}
-.background span:nth-child(10) {
-    color: #00ff9d;
-    top: 38%;
-    left: 9%;
-    animation-duration: 47s;
-    animation-delay: -39s;
-    transform-origin: 12vw 24vh;
-    box-shadow: -100vmin 0 12.594990771505811vmin currentColor;
-}
-.background span:nth-child(11) {
-    color: #00ff9d;
-    top: 79%;
-    left: 1%;
-    animation-duration: 43s;
-    animation-delay: -17s;
-    transform-origin: 9vw 21vh;
-    box-shadow: -100vmin 0 12.787565715002422vmin currentColor;
-}
-.background span:nth-child(12) {
-    color: #00ff9d;
-    top: 41%;
-    left: 95%;
-    animation-duration: 15s;
-    animation-delay: -6s;
-    transform-origin: -12vw 20vh;
-    box-shadow: 100vmin 0 13.249455702504616vmin currentColor;
-}
-.background span:nth-child(13) {
-    color: #00ff9d;
-    top: 57%;
-    left: 63%;
-    animation-duration: 13s;
-    animation-delay: -6s;
-    transform-origin: -22vw 25vh;
-    box-shadow: -100vmin 0 12.917309835289192vmin currentColor;
-}
-.background span:nth-child(14) {
-    color: #00ff9d;
-    top: 29%;
-    left: 83%;
-    animation-duration: 28s;
-    animation-delay: -27s;
-    transform-origin: -2vw -2vh;
-    box-shadow: 100vmin 0 12.648743051602244vmin currentColor;
-}
-.background span:nth-child(15) {
-    color: #00ff59;
-    top: 4%;
-    left: 88%;
-    animation-duration: 37s;
-    animation-delay: -50s;
-    transform-origin: 23vw -9vh;
-    box-shadow: 100vmin 0 12.701238459557086vmin currentColor;
-}
-.background span:nth-child(16) {
-    color: #00ff9d;
-    top: 31%;
-    left: 97%;
-    animation-duration: 37s;
-    animation-delay: -1s;
-    transform-origin: 10vw 15vh;
-    box-shadow: 100vmin 0 12.962639457412344vmin currentColor;
-}
-.background span:nth-child(17) {
-    color: #07cf43;
-    top: 60%;
-    left: 79%;
-    animation-duration: 8s;
-    animation-delay: -7s;
-    transform-origin: -20vw 3vh;
-    box-shadow: 100vmin 0 12.967896214267821vmin currentColor;
-}
-.background span:nth-child(18) {
-    color: #00ff59;
-    top: 19%;
-    left: 78%;
-    animation-duration: 12s;
-    animation-delay: -4s;
-    transform-origin: -8vw 20vh;
-    box-shadow: 100vmin 0 12.725169960976821vmin currentColor;
-}
-.background span:nth-child(19) {
-    color: #00ff59;
-    top: 6%;
-    left: 17%;
-    animation-duration: 28s;
-    animation-delay: -23s;
-    transform-origin: -6vw -9vh;
-    box-shadow: 100vmin 0 12.876097358861236vmin currentColor;
-}
 #search-form {
     position: absolute;
     top: 20px;
@@ -402,7 +282,6 @@
 
     </header>
     <div class="background">
-        <span></span>
         <span></span>
         <span></span>
         <span></span>
@@ -481,3 +360,4 @@
     </script>
 </body>
 </html>
+
