@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify-like App</title>
+    <link href="https://fonts.googleapis.com/css?family=Gotham&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+        }
+
+        main {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1em;
+            margin-bottom: 80px; /* Adjust as needed for player height */
+        }
+
+        form {
+            margin-bottom: 1em;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1em;
+        }
+
+        img {
+            height: 100px;
+            margin-right: 1em;
+        }
+
+        .play-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #1db954;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            margin-right: 1em;
+        }
+
+        .audio-controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.1);
+            display: none; /* Initially hide the audio controls */
+        }
+
+        .audio-controls img {
+            height: 40px;
+            margin-right: 10px;
+            display: block; /* Ensure the image is displayed as a block */
+        }
+
+        .audio-title, .video-title {
+            margin-right: 10px;
+            font-size: 14px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 200px; 
+        }
+        .video-details{
+            font-size: 12px;
+        }
+        #audio-player {
+            background-color: #fff;
+            padding-right: 30%;
+            padding-left: 10%;
+            width: 30%;
+            justify-content: center;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Spotify-like App</h1>
+    </header>
+    <main>
+        <form action="/" method="GET">
+            <label for="search">Search for a song:</label>
+            <input type="text" id="search" name="search" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <ul>
+            {% for video in videos %}
+                <li>
+                    <div class="play-icon" onclick="playAudio('{{ video.audio_url }}', '{{ video.title }}', '{{ video.thumbnail }}')">&#9654;</div>
+                    <img src="{{ video.thumbnail }}" alt="Thumbnail">
+                    <div class="video-details">
+                        <p class="video-title">{{ video.title }}</p>
+                        <p>{{ video.creator }}</p>
+                        <p>Views: {{ video.views }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
+
+    <!-- Audio controls -->
+    <div class="audio-controls" id="audio-controls">
+        <img id="audio-thumbnail" src="" alt="Audio Thumbnail">
+        <p class="audio-title"></p>
+        <audio id="audio-player" controls style="width: 30%;"></audio>
+    </div>
+
+    <script>
+        var currentAudio = null;
+
+        function playAudio(audioUrl, title, thumbnail) {
+            if (currentAudio) {
+                currentAudio.pause();
+            }
+
+            var audioPlayer = document.getElementById('audio-player');
+            audioPlayer.src = audioUrl;
+
+            var audioThumbnail = document.getElementById('audio-thumbnail');
+            audioThumbnail.src = thumbnail;
+
+            audioPlayer.play();
+
+            var audioTitle = document.querySelector('.audio-title');
+            audioTitle.textContent = title;
+
+            var audioControls = document.getElementById('audio-controls');
+            audioControls.style.display = 'flex';
+
+            currentAudio = audioPlayer;
+        }
+    </script>
+</body>
+</html>
