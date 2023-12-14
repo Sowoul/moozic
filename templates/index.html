@@ -8,14 +8,16 @@
 
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Arial, sans-serif; 
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: #05010b; /* Set background color for the entire body */
         }
 
         header {
-            background-color: #333;
+            background-color: transparent;
             color: #fff;
             padding: 1em;
             text-align: center;
@@ -25,7 +27,7 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 1em;
-            margin-bottom: 80px; /* Adjust as needed for player height */
+            margin-bottom: 80px;
         }
 
         form {
@@ -41,6 +43,12 @@
             display: flex;
             align-items: center;
             margin-bottom: 1em;
+            border: 5px solid rgba(0, 255, 34, 0.052);
+            padding: 1em;
+            background-color: rgba(8, 1, 30, 0.2);
+            border-radius: 8px;
+            position: relative; /* Ensure that li elements are positioned relative */
+            z-index: 1; /* Set z-index to make sure li elements are above the background */
         }
 
         img {
@@ -67,19 +75,20 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: #fff;
-            border-top: 1px solid #ddd;
+            background-color: rgba(3, 4, 6, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
             display: flex;
             align-items: center;
             padding: 8px;
             box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.1);
-            display: none; /* Initially hide the audio controls */
+            display: none;
+            z-index: 101;
         }
 
         .audio-controls img {
             height: 40px;
             margin-right: 10px;
-            display: block; /* Ensure the image is displayed as a block */
+            display: block;
         }
 
         .audio-title, .video-title {
@@ -88,25 +97,249 @@
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            max-width: 200px; 
+            max-width: 200px;
+            color: #fff;
         }
         .video-details{
             font-size: 12px;
+            color: #fff;
         }
         #audio-player {
-            background-color: #fff;
+            background-color: rgba(1, 153, 255, 0);
             padding-right: 30%;
             padding-left: 10%;
             width: 30%;
             justify-content: center;
             flex-grow: 1;
+            z-index: 100;
         }
+        @keyframes move {
+            100% {
+                transform: translate3d(0, 0, 1px) rotate(360deg);
+            }
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .background span {
+            width: 50vmin;
+            height: 50vmin;
+            border-radius: 50vmin;
+            backface-visibility: hidden;
+            position: absolute;
+            animation: move;
+            animation-duration: 45s; /* Add 's' to the duration value */
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+
+
+.background span:nth-child(0) {
+    color: #07cf43;
+    top: 8%;
+    left: 56%;
+    animation-duration: 11s;
+    animation-delay: -38s;
+    transform-origin: 5vw -9vh;
+    box-shadow: 100vmin 0 13.210245183352043vmin currentColor;
+}
+.background span:nth-child(1) {
+    color: #00ff59;
+    top: 6%;
+    left: 83%;
+    animation-duration: 14s;
+    animation-delay: -8s;
+    transform-origin: -4vw -12vh;
+    box-shadow: 100vmin 0 13.000797491785788vmin currentColor;
+}
+.background span:nth-child(2) {
+    color: #00ff59;
+    top: 22%;
+    left: 35%;
+    animation-duration: 35s;
+    animation-delay: -23s;
+    transform-origin: -20vw 25vh;
+    box-shadow: -100vmin 0 12.956906506118123vmin currentColor;
+}
+.background span:nth-child(3) {
+    color: #00ff9d;
+    top: 7%;
+    left: 69%;
+    animation-duration: 34s;
+    animation-delay: -39s;
+    transform-origin: 4vw 23vh;
+    box-shadow: 100vmin 0 13.022127971719735vmin currentColor;
+}
+.background span:nth-child(4) {
+    color: #00ff59;
+    top: 58%;
+    left: 4%;
+    animation-duration: 12s;
+    animation-delay: -45s;
+    transform-origin: 19vw -22vh;
+    box-shadow: -100vmin 0 13.236438074205067vmin currentColor;
+}
+.background span:nth-child(5) {
+    color: #07cf43;
+    top: 92%;
+    left: 71%;
+    animation-duration: 42s;
+    animation-delay: -6s;
+    transform-origin: 6vw -1vh;
+    box-shadow: 100vmin 0 12.531633959555556vmin currentColor;
+}
+.background span:nth-child(6) {
+    color: #00ff59;
+    top: 35%;
+    left: 90%;
+    animation-duration: 44s;
+    animation-delay: -17s;
+    transform-origin: -14vw -13vh;
+    box-shadow: 100vmin 0 12.955128370361377vmin currentColor;
+}
+.background span:nth-child(7) {
+    color: #00ff9d;
+    top: 6%;
+    left: 62%;
+    animation-duration: 17s;
+    animation-delay: -23s;
+    transform-origin: 22vw -9vh;
+    box-shadow: -100vmin 0 12.563303315641619vmin currentColor;
+}
+.background span:nth-child(8) {
+    color: #00ff59;
+    top: 16%;
+    left: 98%;
+    animation-duration: 10s;
+    animation-delay: -31s;
+    transform-origin: 15vw 14vh;
+    box-shadow: 100vmin 0 13.388471475390457vmin currentColor;
+}
+.background span:nth-child(9) {
+    color: #07cf43;
+    top: 49%;
+    left: 56%;
+    animation-duration: 10s;
+    animation-delay: -47s;
+    transform-origin: -20vw 14vh;
+    box-shadow: 100vmin 0 12.581227875799286vmin currentColor;
+}
+.background span:nth-child(10) {
+    color: #00ff9d;
+    top: 38%;
+    left: 9%;
+    animation-duration: 47s;
+    animation-delay: -39s;
+    transform-origin: 12vw 24vh;
+    box-shadow: -100vmin 0 12.594990771505811vmin currentColor;
+}
+.background span:nth-child(11) {
+    color: #00ff9d;
+    top: 79%;
+    left: 1%;
+    animation-duration: 43s;
+    animation-delay: -17s;
+    transform-origin: 9vw 21vh;
+    box-shadow: -100vmin 0 12.787565715002422vmin currentColor;
+}
+.background span:nth-child(12) {
+    color: #00ff9d;
+    top: 41%;
+    left: 95%;
+    animation-duration: 15s;
+    animation-delay: -6s;
+    transform-origin: -12vw 20vh;
+    box-shadow: 100vmin 0 13.249455702504616vmin currentColor;
+}
+.background span:nth-child(13) {
+    color: #00ff9d;
+    top: 57%;
+    left: 63%;
+    animation-duration: 13s;
+    animation-delay: -6s;
+    transform-origin: -22vw 25vh;
+    box-shadow: -100vmin 0 12.917309835289192vmin currentColor;
+}
+.background span:nth-child(14) {
+    color: #00ff9d;
+    top: 29%;
+    left: 83%;
+    animation-duration: 28s;
+    animation-delay: -27s;
+    transform-origin: -2vw -2vh;
+    box-shadow: 100vmin 0 12.648743051602244vmin currentColor;
+}
+.background span:nth-child(15) {
+    color: #00ff59;
+    top: 4%;
+    left: 88%;
+    animation-duration: 37s;
+    animation-delay: -50s;
+    transform-origin: 23vw -9vh;
+    box-shadow: 100vmin 0 12.701238459557086vmin currentColor;
+}
+.background span:nth-child(16) {
+    color: #00ff9d;
+    top: 31%;
+    left: 97%;
+    animation-duration: 37s;
+    animation-delay: -1s;
+    transform-origin: 10vw 15vh;
+    box-shadow: 100vmin 0 12.962639457412344vmin currentColor;
+}
+.background span:nth-child(17) {
+    color: #07cf43;
+    top: 60%;
+    left: 79%;
+    animation-duration: 8s;
+    animation-delay: -7s;
+    transform-origin: -20vw 3vh;
+    box-shadow: 100vmin 0 12.967896214267821vmin currentColor;
+}
+.background span:nth-child(18) {
+    color: #00ff59;
+    top: 19%;
+    left: 78%;
+    animation-duration: 12s;
+    animation-delay: -4s;
+    transform-origin: -8vw 20vh;
+    box-shadow: 100vmin 0 12.725169960976821vmin currentColor;
+}
+.background span:nth-child(19) {
+    color: #00ff59;
+    top: 6%;
+    left: 17%;
+    animation-duration: 28s;
+    animation-delay: -23s;
+    transform-origin: -6vw -9vh;
+    box-shadow: 100vmin 0 12.876097358861236vmin currentColor;
+}
+
+    </style>
+
     </style>
 </head>
 <body>
+
     <header>
         <h1>Spotify-like App</h1>
     </header>
+    <div class="background">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <!-- Add more spans as needed -->
+    </div>
     <main>
         <form action="/" method="GET">
             <label for="search">Search for a song:</label>
