@@ -17,11 +17,13 @@
         }
 
         header {
-            background-color: transparent;
-            color: #fff;
-            padding: 1em;
-            text-align: center;
-        }
+      font-family: 'Gotham', sans-serif;
+      color: #fff;
+      text-shadow: 2px 2px #000;
+      text-align: center;
+      padding: 20px;
+      background-color: transparent;
+  }
 
         main {
             max-width: 600px;
@@ -38,6 +40,41 @@
             list-style: none;
             padding: 0;
         }
+        
+        .container{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+
+        input[type=text]{
+            position: relative;
+            padding: 15px 40px 15px 20px;
+            width: 12px;
+            text-transform: uppercase;
+            font-size: 20px;
+            font-weight: 100;
+            letter-spacing: 2px;
+            color:aliceblue;
+            border: 1px solid rgba(4, 255, 0, 0);
+            border-bottom: 0.5px solid rgba(4, 255, 0, 1);
+            background: rgba(0, 0, 0, 0.1);
+            transition: width 0.4s ease;
+            outline: none;
+            &:focus{ width: 300px; }
+            }
+
+            i{
+            position: relative;
+            left: -44px;
+            color: rgba(4, 255, 0, 1);
+            font-style: normal;
+            font-size: 30px;
+            }
+
+
 
         li {
             display: flex;
@@ -49,7 +86,12 @@
             border-radius: 8px;
             position: relative; /* Ensure that li elements are positioned relative */
             z-index: 1; /* Set z-index to make sure li elements are above the background */
+            transition: transform 0.3s ease; /* Add transition for smooth scaling */
         }
+        li:hover {
+            transform: scale(1.05); /* Increase scale on hover */
+        }
+
 
         img {
             height: 100px;
@@ -68,7 +110,17 @@
             font-size: 20px;
             cursor: pointer;
             margin-right: 1em;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
+        li:hover .play-icon {
+            opacity: 1;
+        }
+
 
         .audio-controls {
             position: fixed;
@@ -76,7 +128,7 @@
             left: 0;
             width: 100%;
             background-color: rgba(3, 4, 6, 0.8);
-            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            border-top: 2px solid rgba(4, 255, 0, 0.1);
             display: flex;
             align-items: center;
             padding: 8px;
@@ -139,7 +191,6 @@
             animation-timing-function: linear;
             animation-iteration-count: infinite;
         }
-
 
 
 .background span:nth-child(0) {
@@ -341,25 +392,25 @@
         <!-- Add more spans as needed -->
     </div>
     <main>
-        <form action="/" method="GET">
-            <label for="search">Search for a song:</label>
-            <input type="text" id="search" name="search" required>
-            <button type="submit">Search</button>
+        <form id="search-form" action="/" method="GET">
+            <div class="container">
+                <input class='js-search' type="text" id="search-input">
+                <i class="fa fa-search">⌕</i>
+            </div>
         </form>
-
+        
         <ul>
             {% for video in videos %}
-                <li>
-                    <div class="play-icon" onclick="playAudio('{{ video.audio_url }}', '{{ video.title }}', '{{ video.thumbnail }}')">&#9654;</div>
-                    <img src="{{ video.thumbnail }}" alt="Thumbnail">
-                    <div class="video-details">
-                        <p class="video-title">{{ video.title }}</p>
-                        <p>{{ video.creator }}</p>
-                        <p>Views: {{ video.views }}</p>
-                    </div>
-                </li>
+            <li onclick="playAudio('{{ video.audio_url }}', '{{ video.title }}', '{{ video.thumbnail }}')">
+                <img src="{{ video.thumbnail }}" alt="Thumbnail">
+                <div class="video-details">
+                    <p class="video-title">{{ video.title }}</p>
+                    <p>{{ video.creator }}</p>
+                    <p>Views: {{ video.views }}</p>
+                </div>
+            </li>
             {% endfor %}
-        </ul>
+            </ul>
     </main>
 
     <!-- Audio controls -->
@@ -392,7 +443,23 @@
             audioControls.style.display = 'flex';
 
             currentAudio = audioPlayer;
+            
         }
+        document.addEventListener('DOMContentLoaded', function () {
+        var searchForm = document.getElementById('search-form');
+        var searchInput = document.getElementById('search-input');
+
+        searchForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            var searchTerm = searchInput.value.trim();
+
+            if (searchTerm !== '') {
+                window.location.href = '/?search=' + encodeURIComponent(searchTerm);
+            }
+        });
+    });
+
     </script>
 </body>
 </html>
