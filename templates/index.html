@@ -211,66 +211,95 @@
             animation-iteration-count: infinite;
         }
 
+        .loading-overlay {
+        display: none; /* Hide the loading overlay initially */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0); /* Adjust the background color and opacity */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 80; /* Adjust the z-index to ensure it's above other elements */
+        backdrop-filter: blur(8px); /* Apply a blur effect to the background */
+    }
+    @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
-.background span:nth-child(0) {
-    color: #07cf43;
-    top: 8%;
-    left: 56%;
-    animation-duration: 11s;
-    animation-delay: -38s;
-    transform-origin: 5vw -9vh;
-    box-shadow: 100vmin 0 13.210245183352043vmin currentColor;
-}
-.background span:nth-child(1) {
-    color: #00ff59;
-    top: 6%;
-    left: 83%;
-    animation-duration: 14s;
-    animation-delay: -8s;
-    transform-origin: -4vw -12vh;
-    box-shadow: 100vmin 0 13.000797491785788vmin currentColor;
-}
-.background span:nth-child(2) {
-    color: #00ff59;
-    top: 22%;
-    left: 35%;
-    animation-duration: 35s;
-    animation-delay: -23s;
-    transform-origin: -20vw 25vh;
-    box-shadow: -100vmin 0 12.956906506118123vmin currentColor;
-}
-.background span:nth-child(3) {
-    color: #00ff9d;
-    top: 7%;
-    left: 69%;
-    animation-duration: 34s;
-    animation-delay: -39s;
-    transform-origin: 4vw 23vh;
-    box-shadow: 100vmin 0 13.022127971719735vmin currentColor;
-}
-.background span:nth-child(4) {
-    color: #00ff59;
-    top: 58%;
-    left: 4%;
-    animation-duration: 12s;
-    animation-delay: -45s;
-    transform-origin: 19vw -22vh;
-    box-shadow: -100vmin 0 13.236438074205067vmin currentColor;
-}
-.background span:nth-child(5) {
-    color: #07cf43;
-    top: 92%;
-    left: 71%;
-    animation-duration: 42s;
-    animation-delay: -6s;
-    transform-origin: 6vw -1vh;
-    box-shadow: 100vmin 0 12.531633959555556vmin currentColor;
-}
-#search-form {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
+
+        .loading-logo {
+            height: 100px; /* Adjust the height of the logo */
+            width: 100px; /* Adjust the width of the logo */
+            animation: rotate 2s infinite linear;
+        }
+
+        .background span:nth-child(0) {
+            color: #07cf43;
+            top: 8%;
+            left: 56%;
+            animation-duration: 11s;
+            animation-delay: -38s;
+            transform-origin: 5vw -9vh;
+            box-shadow: 100vmin 0 13.210245183352043vmin currentColor;
+        }
+        .background span:nth-child(1) {
+            color: #00ff59;
+            top: 6%;
+            left: 83%;
+            animation-duration: 14s;
+            animation-delay: -8s;
+            transform-origin: -4vw -12vh;
+            box-shadow: 100vmin 0 13.000797491785788vmin currentColor;
+        }
+        .background span:nth-child(2) {
+            color: #00ff59;
+            top: 22%;
+            left: 35%;
+            animation-duration: 35s;
+            animation-delay: -23s;
+            transform-origin: -20vw 25vh;
+            box-shadow: -100vmin 0 12.956906506118123vmin currentColor;
+        }
+        .background span:nth-child(3) {
+            color: #00ff9d;
+            top: 7%;
+            left: 69%;
+            animation-duration: 34s;
+            animation-delay: -39s;
+            transform-origin: 4vw 23vh;
+            box-shadow: 100vmin 0 13.022127971719735vmin currentColor;
+        }
+        .background span:nth-child(4) {
+            color: #00ff59;
+            top: 58%;
+            left: 4%;
+            animation-duration: 12s;
+            animation-delay: -45s;
+            transform-origin: 19vw -22vh;
+            box-shadow: -100vmin 0 13.236438074205067vmin currentColor;
+        }
+        .background span:nth-child(5) {
+            color: #07cf43;
+            top: 92%;
+            left: 71%;
+            animation-duration: 42s;
+            animation-delay: -6s;
+            transform-origin: 6vw -1vh;
+            box-shadow: 100vmin 0 12.531633959555556vmin currentColor;
+        }
+        #search-form {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
 
 
     </style>
@@ -296,7 +325,9 @@
                 <i class="fa fa-search">⌕</i>
             </div>
         </form>
-        
+        <div class="loading-overlay">
+            <img class="loading-logo" src="{{ url_for('static', filename='logo.png') }}" alt="Loading Logo">
+        </div>    
         <ul>
             {% for video in videos %}
             <li onclick="playAudio('{{ video.audio_url }}', '{{ video.title }}', '{{ video.thumbnail }}')">
@@ -321,7 +352,33 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
+// Add a loading overlay with logo and blur effect
+function showLoadingOverlay() {
+    $('.loading-overlay').show();
+}
+
+function hideLoadingOverlay() {
+    $('.loading-overlay').hide();
+}
+
 $(document).ready(function () {
+    var isFirstLoad = true; // Flag to track the first page load
+
+    // Function to hide the loading overlay only on the first load
+    function hideLoadingOnFirstLoad() {
+        if (isFirstLoad) {
+            hideLoadingOverlay();
+            isFirstLoad = false;
+        }
+    }
+
+    // Hide loading overlay when the document is ready
+    hideLoadingOnFirstLoad();
+
+    function clearSearchInput() {
+        $('#search-input').val('');
+    }
+
     var currentAudio = null;
 
     function playAudio(audioUrl, title, thumbnail) {
@@ -352,6 +409,8 @@ $(document).ready(function () {
         var searchTerm = $('#search-input').val().trim();
 
         if (searchTerm !== '') {
+            showLoadingOverlay(); // Show loading overlay when submitting
+
             $.ajax({
                 url: '/',
                 type: 'GET',
@@ -372,9 +431,14 @@ $(document).ready(function () {
                         newLi.append(detailsDiv);
                         $('ul').append(newLi);
                     });
+
+                    hideLoadingOverlay(); // Hide loading overlay on success
+                    clearSearchInput();
                 },
                 error: function (error) {
                     console.error('Error loading search results:', error);
+
+                    hideLoadingOverlay(); // Hide loading overlay on error
                 }
             });
         }
@@ -383,5 +447,4 @@ $(document).ready(function () {
     </script>
     </body>
 </html>
-
 
