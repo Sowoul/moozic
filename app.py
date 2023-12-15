@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from pytube import Search
 from concurrent.futures import ThreadPoolExecutor
 from flask_caching import Cache
@@ -43,6 +43,12 @@ def moz():
             video_info = [info for info in video_info if info is not None]
             
             cache.set(cache_key, video_info, timeout=60)
+
+        # Check if it's an AJAX request
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'videos': video_info})
+        else:
+            return render_template('index.html', videos=video_info)
 
     return render_template('index.html', videos=video_info)
 
