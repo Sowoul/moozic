@@ -10,6 +10,7 @@
 
 
 
+
     <style>
         body {
             font-family: Arial, sans-serif; 
@@ -291,7 +292,7 @@
     <main>
         <form id="search-form" action="/" method="GET">
             <div class="container">
-                <input class='js-search' type="text" id="search-input">
+                <input class='js-search' type="text" autocomplete="off" id="search-input">
                 <i class="fa fa-search">⌕</i>
             </div>
         </form>
@@ -317,47 +318,70 @@
         <audio id="audio-player" controls style="width: 30%;"></audio>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <script>
-        var currentAudio = null;
+$(document).ready(function () {
+    var currentAudio = null;
 
-        function playAudio(audioUrl, title, thumbnail) {
-            if (currentAudio) {
-                currentAudio.pause();
-            }
-
-            var audioPlayer = document.getElementById('audio-player');
-            audioPlayer.src = audioUrl;
-
-            var audioThumbnail = document.getElementById('audio-thumbnail');
-            audioThumbnail.src = thumbnail;
-
-            audioPlayer.play();
-
-            var audioTitle = document.querySelector('.audio-title');
-            audioTitle.textContent = title;
-
-            var audioControls = document.getElementById('audio-controls');
-            audioControls.style.display = 'flex';
-
-            currentAudio = audioPlayer;
-            
+    function playAudio(audioUrl, title, thumbnail) {
+        if (currentAudio) {
+            currentAudio.pause();
         }
-        document.addEventListener('DOMContentLoaded', function () {
-        var searchForm = document.getElementById('search-form');
-        var searchInput = document.getElementById('search-input');
 
-        searchForm.addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent the default form submission behavior
+        var audioPlayer = $('#audio-player')[0];
+        audioPlayer.src = audioUrl;
 
-            var searchTerm = searchInput.value.trim();
+        var audioThumbnail = $('#audio-thumbnail');
+        audioThumbnail.attr('src', thumbnail);
 
-            if (searchTerm !== '') {
-                window.location.href = '/?search=' + encodeURIComponent(searchTerm);
-            }
-        });
+        audioPlayer.play();
+
+        var audioTitle = $('.audio-title');
+        audioTitle.text(title);
+
+        var audioControls = $('#audio-controls');
+        audioControls.css('display', 'flex');
+
+        currentAudio = audioPlayer;
+    }
+
+    $('#search-form').on('submit', function (event) {
+        event.preventDefault();
+
+        var searchTerm = $('#search-input').val().trim();
+
+        if (searchTerm !== '') {
+            $.ajax({
+                url: '/',
+                type: 'GET',
+                data: { 'search': searchTerm },
+                dataType: 'json',
+                success: function (data) {
+                    $('ul').empty();
+
+                    data.videos.forEach(function (video) {
+                        var newLi = $('<li>').on('click', function () {
+                            playAudio(video.audio_url, video.title, video.thumbnail);
+                        });
+                        newLi.append('<img src="' + video.thumbnail + '" alt="Thumbnail">');
+                        var detailsDiv = $('<div class="video-details">');
+                        detailsDiv.append('<p class="video-title">' + video.title + '</p>');
+                        detailsDiv.append('<p>' + video.creator + '</p>');
+                        detailsDiv.append('<p>Views: ' + video.views + '</p>');
+                        newLi.append(detailsDiv);
+                        $('ul').append(newLi);
+                    });
+                },
+                error: function (error) {
+                    console.error('Error loading search results:', error);
+                }
+            });
+        }
     });
-
+});
     </script>
-</body>
+    </body>
 </html>
+
 
