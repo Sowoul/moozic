@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from pytube import Search
 from concurrent.futures import ThreadPoolExecutor
 from flask_caching import Cache
-from flaskwebgui import FlaskUI
+import webview
 
 app = Flask(__name__)
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
@@ -52,5 +52,8 @@ def moz():
 
     return render_template('index.html', videos=video_info)
 
+
 if __name__ == '__main__':
-    FlaskUI(app=app, server="flask").run()
+    webview.create_window('Symphorny', app,maximized=True, resizable=True)
+    
+    webview.start()
