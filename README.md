@@ -1,6 +1,6 @@
-# Symphorny
+# Symphony
 
-Symphorny is a Flask-based web application that allows users to search for music, view video details, and play audio seamlessly. The application leverages the PyTube library for YouTube video search and integrates Howler.js for audio playback.
+Symphony is a Flask-based web application that allows users to search for music, view video details, and play audio seamlessly. The application leverages the PyTube library for YouTube video search and integrates Howler.js for audio playback.
 
 # Demo
 
