@@ -1,4 +1,4 @@
-pytube
+pytubefix
 flask
 flaskwebgui
 flask_caching
