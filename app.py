@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from pytube import Search
+from pytubefix import Search
 from concurrent.futures import ThreadPoolExecutor
 from flask_caching import Cache
 from flaskwebgui import FlaskUI
@@ -44,7 +44,6 @@ def moz():
             
             cache.set(cache_key, video_info, timeout=60)
 
-        # Check if it's an AJAX request
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return jsonify({'videos': video_info})
         else:
@@ -53,4 +52,4 @@ def moz():
     return render_template('index.html', videos=video_info)
 
 if __name__ == '__main__':
-    FlaskUI(app=app, server="flask").run()
+    app.run(port=8080)
